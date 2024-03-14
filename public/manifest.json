@@ -1,0 +1,11 @@
+{
+  "name": "Itens Extension",
+  "description": "Aplicação de itens",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Itens extension"
+  },
+  "permissions":["scripting"]
+}
