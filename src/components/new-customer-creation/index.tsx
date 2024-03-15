@@ -1,15 +1,18 @@
 import axios from "axios";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Style from "./style";
 //import { useAppSelector } from "../../redux/hooks";
 
+export type Customer = {
+  id: string;
+  name: string;
+  email: string;
+  phone: number;
+};
+
 function NewCustomerCreation() {
   const { register, handleSubmit, reset } = useForm();
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
   function submit(data: any) {
     axios
       .post(`${import.meta.env.VITE_API_URL}/customers`, data)
