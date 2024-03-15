@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +13,14 @@ function NewCustomerCreation() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   });
   function submit(data: any) {
-    alert(JSON.stringify(data));
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/customers`, data)
+      .then(() => {
+        alert("Cliente cadastrado com sucesso");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   }
 
   return (
@@ -21,15 +29,20 @@ function NewCustomerCreation() {
       <form onSubmit={handleSubmit(submit)}>
         <label>
           Nome:
-          <input type="text" {...register("name")} />
+          <input type="text" defaultValue="" {...register("name")} required />
         </label>
         <label>
           Email:
-          <input type="text" {...register("email")} />
+          <input type="text" defaultValue="" {...register("email")} required />
         </label>
         <label>
           Telefone:
-          <input type="text" {...register("phone")} />
+          <input
+            type="number"
+            defaultValue=""
+            {...register("phone")}
+            required
+          />
         </label>
         <button type="submit">Cadastrar</button>
       </form>
