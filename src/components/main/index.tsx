@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import NewCustomerCreation, { Customer } from "../new-customer-creation";
-import SearchCustomerByFilter from "../search-customer-by-filter";
 import Style from "./style";
 //import { useAppSelector } from "../../redux/hooks";
 
@@ -30,6 +29,7 @@ function Main() {
       )
       .then((response) => {
         setCustomers(response.data);
+        reset({ filterValue: "" });
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -39,26 +39,31 @@ function Main() {
   return (
     <Style.Container>
       <main>Clean Admin</main>
-      <SearchCustomerByFilter />
-      <button onClick={getAllCustomers}>Visualizar todos os clientes</button>
-      <form onSubmit={handleSubmit(getCustomersByFilter)}>
-        <label htmlFor="">Filtrar clientes por:</label>
-        <select {...register("filter")}>
-          <option value="Name">nome</option>
-          <option value="Email">email</option>
-          <option value="Phone">telefone</option>
-        </select>
-        <input type="text" {...register("filterValue")} />
-        <button type="submit">Visualizar clientes</button>
-      </form>
-      <NewCustomerCreation />
-      {customers.length > 0 && (
+      <Style.Container2>
         <div>
-          {customers.map((customer) => (
-            <div key={customer.id}>{customer.email}</div>
-          ))}
+          <button onClick={getAllCustomers}>
+            Visualizar todos os clientes
+          </button>
+          <form onSubmit={handleSubmit(getCustomersByFilter)}>
+            <label htmlFor="">Filtrar clientes por:</label>
+            <select {...register("filter")}>
+              <option value="Name">nome</option>
+              <option value="Email">email</option>
+              <option value="Phone">telefone</option>
+            </select>
+            <input type="text" {...register("filterValue")} />
+            <button type="submit">Visualizar clientes</button>
+          </form>
+          <NewCustomerCreation />
         </div>
-      )}
+        {customers.length > 0 && (
+          <div>
+            {customers.map((customer) => (
+              <div key={customer.id}>{customer.email}</div>
+            ))}
+          </div>
+        )}
+      </Style.Container2>
     </Style.Container>
   );
 }
