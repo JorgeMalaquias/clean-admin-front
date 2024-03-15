@@ -1,13 +1,11 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import Style from "./style";
 //import { useAppSelector } from "../../redux/hooks";
 
 function NewCustomerCreation() {
-  const { register, handleSubmit } = useForm();
-  const navigate = useNavigate();
+  const { register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -17,6 +15,7 @@ function NewCustomerCreation() {
       .post(`${import.meta.env.VITE_API_URL}/customers`, data)
       .then(() => {
         alert("Cliente cadastrado com sucesso");
+        reset();
       })
       .catch((error) => {
         console.log(error.response.data);
