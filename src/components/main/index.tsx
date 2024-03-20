@@ -1,20 +1,36 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import NewCustomerCreation, { Customer } from "../new-customer-creation";
 import Style from "./style";
 //import { useAppSelector } from "../../redux/hooks";
+type Position = {
+  id: number;
+  name: string;
+  routePosition: number;
+  email: string;
+};
 
 function Main() {
   const [customers, setCustomers] = useState<Customer[]>([]);
+  const [positions, setPositions] = useState<Position[]>([]);
   const { register, handleSubmit, getValues, reset } = useForm();
 
-  useEffect(() => {});
   function getAllCustomers() {
     axios
       .get(`${import.meta.env.VITE_API_URL}/customers`)
       .then((response) => {
         setCustomers(response.data);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }
+  function getRoute() {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/localizations`)
+      .then((response) => {
+        setPositions(response.data);
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -44,6 +60,9 @@ function Main() {
           <button onClick={getAllCustomers}>
             Visualizar todos os clientes
           </button>
+          <button onClick={getRoute}>
+            Visualizar rota mais curta de visitação de clientes
+          </button>
           <form onSubmit={handleSubmit(getCustomersByFilter)}>
             <label htmlFor="">Filtrar clientes por:</label>
             <select {...register("filter")}>
@@ -66,6 +85,17 @@ function Main() {
                   Localização: (<span>{customer.x}</span>,
                   <span>{customer.y}</span>)
                 </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {positions.length > 0 && (
+          <div>
+            {positions.map((position) => (
+              <div key={position.id}>
+                <div>{position.name}</div>
+                <div>{position.email}</div>
+                <div>{position.routePosition}º</div>
               </div>
             ))}
           </div>
