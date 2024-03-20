@@ -59,7 +59,14 @@ function Main() {
         {customers.length > 0 && (
           <div>
             {customers.map((customer) => (
-              <div key={customer.id}>{customer.email}</div>
+              <div key={customer.id}>
+                <div>{customer.email}</div>
+                <div>{customer.name}</div>
+                <div>
+                  Localização: (<span>{customer.x}</span>,
+                  <span>{customer.y}</span>)
+                </div>
+              </div>
             ))}
           </div>
         )}

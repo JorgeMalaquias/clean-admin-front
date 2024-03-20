@@ -8,6 +8,8 @@ export type Customer = {
   name: string;
   email: string;
   phone: number;
+  x: number;
+  y: number;
 };
 
 function NewCustomerCreation() {
@@ -15,7 +17,10 @@ function NewCustomerCreation() {
 
   function submit(data: any) {
     axios
-      .post(`${import.meta.env.VITE_API_URL}/customers`, data)
+      .post(`${import.meta.env.VITE_API_URL}/customers`, {
+        ...data,
+        localization: { x: data.x, y: data.y },
+      })
       .then(() => {
         alert("Cliente cadastrado com sucesso");
         reset();
@@ -30,19 +35,46 @@ function NewCustomerCreation() {
       <h1>Novo cliente</h1>
       <form onSubmit={handleSubmit(submit)}>
         <label>
-          Nome:
-          <input type="text" defaultValue="" {...register("name")} required />
+          <input
+            type="text"
+            defaultValue=""
+            placeholder="Nome"
+            {...register("name")}
+            required
+          />
         </label>
         <label>
-          Email:
-          <input type="text" defaultValue="" {...register("email")} required />
+          <input
+            type="text"
+            defaultValue=""
+            placeholder="Email"
+            {...register("email")}
+            required
+          />
         </label>
         <label>
-          Telefone:
           <input
             type="number"
             defaultValue=""
+            placeholder="Telefone"
             {...register("phone")}
+            required
+          />
+        </label>
+        <label>
+          Localização (x,y):
+          <input
+            type="number"
+            defaultValue=""
+            placeholder="x"
+            {...register("x")}
+            required
+          />
+          <input
+            type="number"
+            defaultValue=""
+            placeholder="y"
+            {...register("y")}
             required
           />
         </label>
